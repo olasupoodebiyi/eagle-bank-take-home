@@ -60,6 +60,51 @@ describe("Auth API handler", () => {
   });
 });
 
+describe("Transactions API handler", () => {
+  it("returns paginated transactions for authenticated user", async () => {
+    const res = await fetch("/api/transactions?page=1&limit=10", {
+      headers: BASE_HEADERS,
+    });
+    expect(res.status).toBe(200);
+    const body = await res.json();
+    expect(body).toHaveProperty("data");
+    expect(body).toHaveProperty("total");
+    expect(body).toHaveProperty("page", 1);
+    expect(Array.isArray(body.data)).toBe(true);
+  });
+
+  it("rejects unauthenticated requests", async () => {
+    const res = await fetch("/api/transactions", {
+      headers: { "Content-Type": "application/json" },
+    });
+    expect(res.status).toBe(401);
+  });
+
+  it("filters by transaction type", async () => {
+    const res = await fetch("/api/transactions?type=deposit&page=1&limit=10", {
+      headers: BASE_HEADERS,
+    });
+    const body = await res.json();
+    expect(body.data.every((t: { type: string }) => t.type === "deposit")).toBe(true);
+  });
+
+  it("returns single transaction by id", async () => {
+    const res = await fetch("/api/transactions/txn_001", {
+      headers: BASE_HEADERS,
+    });
+    expect(res.status).toBe(200);
+    const txn = await res.json();
+    expect(txn.id).toBe("txn_001");
+  });
+
+  it("returns 404 for unknown transaction", async () => {
+    const res = await fetch("/api/transactions/txn_nonexistent", {
+      headers: BASE_HEADERS,
+    });
+    expect(res.status).toBe(404);
+  });
+});
+
 describe("Accounts API handler", () => {
   it("returns accounts for authenticated user", async () => {
     const res = await fetch("/api/accounts", { headers: BASE_HEADERS });
