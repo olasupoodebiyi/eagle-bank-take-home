@@ -21,6 +21,9 @@ export const metadata: Metadata = {
   },
   description:
     "Eagle Bank — your modern, secure banking platform for the digital age.",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
@@ -31,7 +34,8 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${dmSans.variable} ${jetbrainsMono.variable}`}
+      className={`dark ${dmSans.variable} ${jetbrainsMono.variable}`}
+      style={{ colorScheme: "dark" }}
       suppressHydrationWarning
     >
       <body>
