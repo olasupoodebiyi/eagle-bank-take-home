@@ -1,0 +1,48 @@
+import type { Account } from "@/types";
+
+export const mockAccounts: Account[] = [
+  {
+    id: "acc_001",
+    userId: "usr_001",
+    accountNumber: "GB29 NWBK 6016 1331 9268 19",
+    type: "savings",
+    status: "active",
+    balance: 24850.75,
+    availableBalance: 24850.75,
+    currency: "GBP",
+    createdAt: "2024-01-15T10:00:00Z",
+  },
+  {
+    id: "acc_002",
+    userId: "usr_001",
+    accountNumber: "GB29 NWBK 6016 1331 9268 20",
+    type: "credit",
+    status: "active",
+    balance: -1250.0,
+    availableBalance: 8750.0,
+    currency: "GBP",
+    createdAt: "2024-01-15T10:00:00Z",
+  },
+  {
+    id: "acc_003",
+    userId: "usr_001",
+    accountNumber: "GB29 NWBK 6016 1331 9268 21",
+    type: "checking",
+    status: "active",
+    balance: 5320.5,
+    availableBalance: 5320.5,
+    currency: "GBP",
+    createdAt: "2024-03-01T10:00:00Z",
+  },
+  {
+    id: "acc_004",
+    userId: "usr_002",
+    accountNumber: "GB29 NWBK 6016 1331 9268 22",
+    type: "savings",
+    status: "active",
+    balance: 12000.0,
+    availableBalance: 12000.0,
+    currency: "GBP",
+    createdAt: "2024-02-20T09:00:00Z",
+  },
+];
