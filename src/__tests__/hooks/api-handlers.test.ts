@@ -126,3 +126,48 @@ describe("Accounts API handler", () => {
     expect(res.status).toBe(404);
   });
 });
+
+describe("Dashboard API handler", () => {
+  it("returns dashboard for authenticated user", async () => {
+    const res = await fetch("/api/dashboard", { headers: BASE_HEADERS });
+    expect(res.status).toBe(200);
+    const body = await res.json();
+    expect(body).toHaveProperty("user");
+    expect(body).toHaveProperty("stats");
+    expect(body).toHaveProperty("accounts");
+    expect(body.user.id).toBe("usr_001");
+  });
+
+  it("rejects unauthenticated dashboard requests", async () => {
+    const res = await fetch("/api/dashboard", {
+      headers: { "Content-Type": "application/json" },
+    });
+    expect(res.status).toBe(401);
+  });
+});
+
+describe("Profile API handler", () => {
+  it("returns profile for authenticated user", async () => {
+    const res = await fetch("/api/profile", { headers: BASE_HEADERS });
+    expect(res.status).toBe(200);
+    const user = await res.json();
+    expect(user.id).toBe("usr_001");
+    expect(user).not.toHaveProperty("passwordHash");
+  });
+
+  it("updates profile on PUT", async () => {
+    const res = await fetch("/api/profile", {
+      method: "PUT",
+      headers: BASE_HEADERS,
+      body: JSON.stringify({
+        fullName: "Alex Morgan",
+        email: "alex.morgan@example.com",
+        phone: "+44 7700 900123",
+        address: "12 Financial Street, London",
+      }),
+    });
+    expect(res.status).toBe(200);
+    const user = await res.json();
+    expect(user.address).toBe("12 Financial Street, London");
+  });
+});
