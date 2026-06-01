@@ -12,8 +12,10 @@
     ]
   },
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "predev": "node scripts/check-dev-env.mjs",
+    "dev": "next dev .",
+    "dev:webpack": "next dev --webpack .",
+    "build": "next build .",
     "start": "next start",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
