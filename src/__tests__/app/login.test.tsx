@@ -33,7 +33,7 @@ describe("LoginPage", () => {
       </TestProviders>
     );
 
-    expect(screen.getByText("Sign in", { selector: "p, h1, h2, span, div" })).toBeTruthy();
+    expect(screen.getByRole("button", { name: /sign in/i })).toBeInTheDocument();
     expect(screen.getByLabelText(/email address/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/^password$/i)).toBeInTheDocument();
   });

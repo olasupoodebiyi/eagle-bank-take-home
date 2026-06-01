@@ -30,7 +30,7 @@ describe("RegisterPage", () => {
       </TestProviders>
     );
 
-    expect(screen.getByText("Create account")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /create account/i })).toBeInTheDocument();
     expect(screen.getByLabelText(/full name/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/email address/i)).toBeInTheDocument();
   });
