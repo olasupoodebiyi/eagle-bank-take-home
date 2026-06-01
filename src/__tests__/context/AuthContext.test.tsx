@@ -1,6 +1,7 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeEach } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import Cookies from "js-cookie";
 import { AuthProvider, useAuth } from "@/context/AuthContext";
 import { ChakraProvider } from "@chakra-ui/react";
 import { system } from "@/styles/theme";
@@ -36,6 +37,10 @@ function LoginButton() {
 }
 
 describe("AuthContext", () => {
+  beforeEach(() => {
+    Cookies.remove("eagle_bank_token");
+  });
+
   it("starts in unauthenticated state after loading", async () => {
     render(
       <TestWrapper>
