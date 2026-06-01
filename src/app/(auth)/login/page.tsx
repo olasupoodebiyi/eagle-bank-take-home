@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import {
   Box,
   Text,
@@ -19,7 +19,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/context/ToastContext";
 import { loginSchema, type LoginFormData } from "@/lib/validations";
 
-export default function LoginPage() {
+function LoginForm() {
   const { login } = useAuth();
   const { toast } = useToast();
   const router = useRouter();
@@ -233,5 +233,13 @@ export default function LoginPage() {
         </VStack>
       </form>
     </Box>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={null}>
+      <LoginForm />
+    </Suspense>
   );
 }
