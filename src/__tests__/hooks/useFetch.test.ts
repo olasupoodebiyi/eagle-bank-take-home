@@ -1,8 +1,9 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { renderHook, waitFor } from "@testing-library/react";
 import { http, HttpResponse } from "msw";
 import { server } from "@/mocks/server";
 import { useFetch } from "@/hooks/useFetch";
+import * as authSession from "@/lib/auth-session";
 
 describe("useFetch", () => {
   it("returns loading state initially", () => {
@@ -26,18 +27,34 @@ describe("useFetch", () => {
     expect(result.current.error).toBeNull();
   });
 
-  it("returns error on failed fetch", async () => {
-    server.use(
-      http.get("/api/accounts", () =>
-        HttpResponse.json({ message: "Unauthorized" }, { status: 401 })
-      )
+  describe("401 / 403", () => {
+    const handleUnauthorized = vi.spyOn(
+      authSession,
+      "handleUnauthorizedResponse"
     );
 
-    const { result } = renderHook(() => useFetch("/api/accounts"));
+    beforeEach(() => {
+      handleUnauthorized.mockImplementation(() => {});
+    });
 
-    await waitFor(() => expect(result.current.isLoading).toBe(false));
-    expect(result.current.error).toBe("Unauthorized");
-    expect(result.current.data).toBeNull();
+    afterEach(() => {
+      handleUnauthorized.mockRestore();
+    });
+
+    it("redirects to login instead of surfacing an error", async () => {
+      server.use(
+        http.get("/api/accounts", () =>
+          HttpResponse.json({ message: "Unauthorized" }, { status: 401 })
+        )
+      );
+
+      const { result } = renderHook(() => useFetch("/api/accounts"));
+
+      await waitFor(() => expect(result.current.isLoading).toBe(false));
+      expect(handleUnauthorized).toHaveBeenCalled();
+      expect(result.current.error).toBeNull();
+      expect(result.current.data).toBeNull();
+    });
   });
 
   it("does not fetch when url is null", () => {
