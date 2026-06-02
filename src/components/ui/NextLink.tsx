@@ -10,10 +10,17 @@ export type NextLinkBoxProps = Omit<BoxProps, "as" | "asChild"> & {
   href: Href;
 };
 
-export function NextLinkBox({ href, children, ...props }: NextLinkBoxProps) {
+export function NextLinkBox({
+  href,
+  children,
+  "aria-label": ariaLabel,
+  ...props
+}: NextLinkBoxProps) {
   return (
     <Box asChild {...props}>
-      <NextLink href={href}>{children}</NextLink>
+      <NextLink href={href} aria-label={ariaLabel}>
+        {children}
+      </NextLink>
     </Box>
   );
 }
