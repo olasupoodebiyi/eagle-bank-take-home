@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/context/ToastContext";
 import { registerSchema, type RegisterFormData } from "@/lib/validations";
+import { AuthMobileBrand } from "@/components/layout/AuthMobileBrand";
 
 function FormField({
   id,
@@ -95,9 +96,16 @@ export default function RegisterPage() {
   }
 
   return (
-    <Box>
-      <Box mb="32px">
-        <Text fontSize="28px" fontWeight="700" color="fg.default" letterSpacing="-0.5px" mb="8px">
+    <Box w="full">
+      <AuthMobileBrand />
+      <Box mb={{ base: "24px", lg: "32px" }}>
+        <Text
+          fontSize={{ base: "24px", sm: "28px" }}
+          fontWeight="700"
+          color="fg.default"
+          letterSpacing="-0.5px"
+          mb="8px"
+        >
           Create account
         </Text>
         <Text fontSize="14px" color="fg.muted">
