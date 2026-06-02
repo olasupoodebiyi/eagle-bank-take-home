@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import DashboardPage from "@/app/(app)/dashboard/page";
 import {
@@ -6,6 +6,10 @@ import {
   seedAuthCookie,
   clearAuthCookie,
 } from "./test-utils";
+
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({ replace: vi.fn(), push: vi.fn() }),
+}));
 
 describe("DashboardPage", () => {
   beforeEach(() => seedAuthCookie());
