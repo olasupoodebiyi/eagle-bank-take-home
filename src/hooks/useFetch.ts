@@ -2,6 +2,10 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { getAuthorizationHeader } from "@/lib/auth-token";
+import {
+  handleUnauthorizedResponse,
+  isSessionError,
+} from "@/lib/auth-session";
 
 interface UseFetchState<T> {
   data: T | null;
@@ -29,6 +33,11 @@ export function useFetch<T>(url: string | null) {
       });
 
       if (!res.ok) {
+        if (isSessionError(res.status)) {
+          handleUnauthorizedResponse();
+          setState({ data: null, isLoading: false, error: null });
+          return;
+        }
         const err = await res.json().catch(() => ({ message: "Request failed" }));
         throw new Error(err.message ?? `Error ${res.status}`);
       }
@@ -66,6 +75,13 @@ export function useFetch<T>(url: string | null) {
         if (cancelled) return;
 
         if (!res.ok) {
+          if (isSessionError(res.status)) {
+            handleUnauthorizedResponse();
+            if (!cancelled) {
+              setState({ data: null, isLoading: false, error: null });
+            }
+            return;
+          }
           const err = await res.json().catch(() => ({ message: "Request failed" }));
           throw new Error(err.message ?? `Error ${res.status}`);
         }
@@ -108,6 +124,10 @@ export async function authFetch<T>(
   });
 
   if (!res.ok) {
+    if (isSessionError(res.status)) {
+      handleUnauthorizedResponse();
+      throw new Error("Session expired");
+    }
     const err = await res.json().catch(() => ({ message: "Request failed" }));
     throw new Error(err.message ?? `Error ${res.status}`);
   }

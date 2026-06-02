@@ -3,6 +3,7 @@
 import { Suspense, useState } from "react";
 import { Box, Flex, HStack, Text, Drawer, IconButton } from "@chakra-ui/react";
 import { Menu, Feather } from "lucide-react";
+import { RequireAuth } from "@/components/auth/RequireAuth";
 import { SidebarContent } from "./Sidebar";
 
 type AppShellProps = {
@@ -95,7 +96,7 @@ export function AppShell({ children }: AppShellProps) {
         aria-label="Main content"
       >
         <Box maxW="1200px" mx="auto" w="full">
-          {children}
+          <RequireAuth>{children}</RequireAuth>
         </Box>
       </Box>
     </Flex>

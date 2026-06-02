@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from "vitest";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Cookies from "js-cookie";
@@ -39,6 +39,15 @@ function LoginButton() {
 describe("AuthContext", () => {
   beforeEach(() => {
     Cookies.remove("eagle_bank_token");
+    vi.stubGlobal("location", {
+      ...window.location,
+      pathname: "/login",
+      replace: vi.fn(),
+    });
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
   });
 
   it("starts in unauthenticated state after loading", async () => {
