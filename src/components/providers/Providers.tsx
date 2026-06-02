@@ -11,10 +11,12 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <ChakraProvider value={system}>
       <ToastProvider>
-        <AuthProvider>
-          <MSWProvider>{children}</MSWProvider>
-          <ToastContainer />
-        </AuthProvider>
+        <MSWProvider>
+          <AuthProvider>
+            {children}
+            <ToastContainer />
+          </AuthProvider>
+        </MSWProvider>
       </ToastProvider>
     </ChakraProvider>
   );
