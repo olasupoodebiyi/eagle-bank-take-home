@@ -1,10 +1,13 @@
+import { Suspense } from "react";
 import { Box, Flex } from "@chakra-ui/react";
 import { Sidebar } from "@/components/layout/Sidebar";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <Flex minH="100vh" bg="surface.0">
-      <Sidebar />
+      <Suspense fallback={null}>
+        <Sidebar />
+      </Suspense>
       <Box
         as="main"
         flex={1}
