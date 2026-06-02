@@ -34,3 +34,6 @@ Thumbs.db
 
 # Turbopack
 .turbo/
+
+# Local-only notes (interview prep lives in temp/INTERVIEW.md)
+temp/

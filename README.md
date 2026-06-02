@@ -243,5 +243,5 @@ Production build verified with `pnpm build` and `pnpm test:run` (Next.js 16, Tur
 
 ## Documentation & diagrams
 
-- [`docs/`](./docs) — architecture, [`docs/REQUIREMENTS.md`](./docs/REQUIREMENTS.md) (brief ↔ code traceability), [`docs/INTERVIEW.md`](./docs/INTERVIEW.md) (rubric + interview prep)
+- [`docs/`](./docs) — architecture and [`docs/REQUIREMENTS.md`](./docs/REQUIREMENTS.md) (brief ↔ code traceability, rubric scores)
 - [`diagrams/`](./diagrams) — Mermaid diagrams (system architecture, request lifecycle, auth flow, routes)

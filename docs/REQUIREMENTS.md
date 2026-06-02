@@ -260,7 +260,7 @@ There are **11 HTTP operations** across **4 handler modules**. None are implemen
 
 ## Evaluation rubric (weighted) — quick scores
 
-Aligned with [`INTERVIEW.md`](./INTERVIEW.md) Part A. Overall **~80 / 100**.
+Overall **~80 / 100** (weighted rubric below).
 
 | Category | Weight | Score (/100) | Weighted |
 |----------|--------|--------------|----------|
@@ -301,6 +301,5 @@ Rationale: [`README.md`](../README.md) section **“A note on the brief”**.
 ## Related documentation
 
 - [`ARCHITECTURE.md`](./ARCHITECTURE.md) — system design
-- [`INTERVIEW.md`](./INTERVIEW.md) — interview prep + rubric narrative
 - [`../diagrams/request-lifecycle.md`](../diagrams/request-lifecycle.md) — fetch → MSW flow
 - [`../diagrams/auth-flow.md`](../diagrams/auth-flow.md) — login + `proxy.ts`
