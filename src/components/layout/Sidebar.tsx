@@ -22,13 +22,19 @@ const navItems = [
   { href: "/profile", label: "Profile", icon: User },
 ];
 
-export function Sidebar() {
+export type SidebarContentProps = {
+  /** Close mobile drawer after navigation */
+  onNavigate?: () => void;
+};
+
+export function SidebarContent({ onNavigate }: SidebarContentProps) {
   const pathname = usePathname();
   const { user, logout } = useAuth();
   const { toast } = useToast();
   const router = useRouter();
 
   async function handleLogout() {
+    onNavigate?.();
     await logout();
     toast({ title: "Signed out", status: "success" });
     router.push("/login");
@@ -37,20 +43,19 @@ export function Sidebar() {
   return (
     <Box
       as="nav"
-      w="240px"
-      minH="100vh"
+      w={{ base: "full", lg: "240px" }}
+      minH={{ base: "auto", lg: "100vh" }}
       bg="surface.1"
-      borderRight="1px solid"
+      borderRight={{ base: "none", lg: "1px solid" }}
       borderColor="surface.border"
       display="flex"
       flexDirection="column"
       flexShrink={0}
       aria-label="Main navigation"
     >
-      {/* Logo */}
       <Box
         px="24px"
-        py="28px"
+        py={{ base: "20px", lg: "28px" }}
         borderBottom="1px solid"
         borderColor="surface.border"
       >
@@ -77,7 +82,6 @@ export function Sidebar() {
         </HStack>
       </Box>
 
-      {/* Nav links */}
       <VStack gap="4px" p="16px" flex={1} align="stretch">
         {navItems.map(({ href, label, icon: Icon }) => {
           const isActive = pathname.startsWith(href);
@@ -85,6 +89,7 @@ export function Sidebar() {
             <NextLinkBox
               key={href}
               href={href}
+              onClick={() => onNavigate?.()}
               display="flex"
               alignItems="center"
               gap="10px"
@@ -109,7 +114,6 @@ export function Sidebar() {
         })}
       </VStack>
 
-      {/* User footer */}
       <Box p="16px" borderTop="1px solid" borderColor="surface.border">
         <HStack gap="10px" mb="12px">
           <Avatar.Root size="sm" w="36px" h="36px">
@@ -159,4 +163,9 @@ export function Sidebar() {
       </Box>
     </Box>
   );
+}
+
+/** Desktop sidebar — prefer AppShell for the full responsive shell */
+export function Sidebar() {
+  return <SidebarContent />;
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { useState } from "react";
 import {
   Box,
   Text,
@@ -18,8 +18,9 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/context/ToastContext";
 import { loginSchema, type LoginFormData } from "@/lib/validations";
+import { AuthMobileBrand } from "@/components/layout/AuthMobileBrand";
 
-function LoginForm() {
+export default function LoginPage() {
   const { login } = useAuth();
   const { toast } = useToast();
   const router = useRouter();
@@ -48,10 +49,11 @@ function LoginForm() {
   }
 
   return (
-    <Box>
-      <Box mb="36px">
+    <Box w="full">
+      <AuthMobileBrand />
+      <Box mb={{ base: "24px", lg: "36px" }}>
         <Text
-          fontSize="28px"
+          fontSize={{ base: "24px", sm: "28px" }}
           fontWeight="700"
           color="fg.default"
           letterSpacing="-0.5px"
@@ -233,13 +235,5 @@ function LoginForm() {
         </VStack>
       </form>
     </Box>
-  );
-}
-
-export default function LoginPage() {
-  return (
-    <Suspense fallback={null}>
-      <LoginForm />
-    </Suspense>
   );
 }
