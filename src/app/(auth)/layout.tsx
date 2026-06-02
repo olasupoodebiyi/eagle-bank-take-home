@@ -84,7 +84,14 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       </Box>
 
       {/* Right panel - form */}
-      <Flex flex={1} align="center" justify="center" p="40px">
+      <Flex
+        flex={1}
+        align="center"
+        justify="center"
+        p={{ base: "24px", sm: "32px", lg: "40px" }}
+        w="full"
+        minW={0}
+      >
         <Box w="full" maxW="440px">
           {children}
         </Box>
