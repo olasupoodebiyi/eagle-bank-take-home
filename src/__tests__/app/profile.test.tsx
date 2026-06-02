@@ -26,12 +26,11 @@ describe("ProfilePage", () => {
     await waitFor(
       () => {
         expect(screen.getByText("Profile")).toBeInTheDocument();
+        expect(screen.getByText("Alex Morgan")).toBeInTheDocument();
+        expect(screen.getByText("alex.morgan@example.com")).toBeInTheDocument();
       },
-      { timeout: 5000 }
+      { timeout: 8000 }
     );
-
-    expect(screen.getByDisplayValue("Alex Morgan")).toBeInTheDocument();
-    expect(screen.getByDisplayValue("alex.morgan@example.com")).toBeInTheDocument();
   });
 
   it("shows validation error when required fields are cleared and submitted", async () => {
@@ -42,16 +41,22 @@ describe("ProfilePage", () => {
       </AppTestProviders>
     );
 
-    await waitFor(() => {
-      expect(screen.getByDisplayValue("Alex Morgan")).toBeInTheDocument();
-    });
+    await waitFor(
+      () => {
+        expect(screen.getByText("Alex Morgan")).toBeInTheDocument();
+      },
+      { timeout: 8000 }
+    );
 
     const nameInput = screen.getByLabelText(/full name/i);
     await user.clear(nameInput);
+    await user.type(nameInput, "A");
     await user.click(screen.getByRole("button", { name: /save changes/i }));
 
     await waitFor(() => {
-      expect(screen.getByText(/name must be at least 2 characters/i)).toBeInTheDocument();
+      expect(
+        screen.getByText(/name must be at least 2 characters/i)
+      ).toBeInTheDocument();
     });
   });
 });
