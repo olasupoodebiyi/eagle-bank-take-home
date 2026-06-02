@@ -9,7 +9,13 @@ import {
   type ReactNode,
 } from "react";
 import Cookies from "js-cookie";
-import { getAuthorizationHeader } from "@/lib/auth-token";
+import { getAuthorizationHeader, TOKEN_COOKIE } from "@/lib/auth-token";
+import {
+  clearAuthCookie,
+  hasAuthCookie,
+  isPublicAuthPath,
+  redirectToLogin,
+} from "@/lib/auth-session";
 import type { AuthState, User, LoginPayload, RegisterPayload } from "@/types";
 
 // ─── State ─────────────────────────────────────────────────────────────────────
@@ -59,8 +65,6 @@ interface AuthContextValue extends AuthState {
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
-const TOKEN_COOKIE = "eagle_bank_token";
-
 // ─── Provider ──────────────────────────────────────────────────────────────────
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -68,11 +72,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Rehydrate session on mount
   useEffect(() => {
-    const token = Cookies.get(TOKEN_COOKIE);
-    if (!token) {
-      dispatch({ type: "SET_LOADING", payload: false });
+    if (!hasAuthCookie()) {
+      if (isPublicAuthPath()) {
+        dispatch({ type: "SET_LOADING", payload: false });
+        return;
+      }
+      redirectToLogin();
       return;
     }
+
+    const token = Cookies.get(TOKEN_COOKIE) ?? "";
 
     fetch("/api/auth/me", {
       headers: {
@@ -88,8 +97,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         dispatch({ type: "LOGIN_SUCCESS", payload: { user, token } });
       })
       .catch(() => {
-        Cookies.remove(TOKEN_COOKIE);
-        dispatch({ type: "SET_LOADING", payload: false });
+        clearAuthCookie();
+        redirectToLogin();
       });
   }, []);
 
@@ -137,7 +146,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       method: "POST",
       headers: { Authorization: `Bearer ${token}` },
     }).catch(() => {});
-    Cookies.remove(TOKEN_COOKIE);
+    clearAuthCookie();
     dispatch({ type: "LOGOUT" });
   }, []);
 

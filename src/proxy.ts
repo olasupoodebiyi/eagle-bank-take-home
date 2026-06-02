@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-
-const TOKEN_COOKIE = "eagle_bank_token";
+import { TOKEN_COOKIE } from "@/lib/auth-token";
 const PUBLIC_PATHS = ["/login", "/register"];
 
 export function proxy(request: NextRequest) {

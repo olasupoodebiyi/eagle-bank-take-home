@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ChakraProvider } from "@chakra-ui/react";
@@ -24,6 +24,18 @@ function TestProviders({ children }: { children: React.ReactNode }) {
 }
 
 describe("LoginPage", () => {
+  beforeEach(() => {
+    vi.stubGlobal("location", {
+      ...window.location,
+      pathname: "/login",
+      replace: vi.fn(),
+    });
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
   it("renders the sign in form", () => {
     render(
       <TestProviders>

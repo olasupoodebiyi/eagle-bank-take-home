@@ -1,5 +1,6 @@
 import { Box, Text, Button, VStack } from "@chakra-ui/react";
 import { Inbox, AlertCircle, RefreshCcw } from "lucide-react";
+import { getSessionAwareErrorState } from "@/lib/auth-session";
 
 interface EmptyStateProps {
   title: string;
@@ -63,10 +64,15 @@ interface ErrorStateProps {
 }
 
 export function ErrorState({
-  title = "Something went wrong",
+  title,
   message,
   onRetry,
 }: ErrorStateProps) {
+  const resolved = getSessionAwareErrorState(message);
+  const displayTitle = title ?? resolved.title;
+  const displayMessage = resolved.message;
+  const showRetry = resolved.showRetry && onRetry;
+
   return (
     <VStack gap="16px" py="48px" px="24px" align="center" justify="center" w="full">
       <Box p="16px" bg="rgba(244,63,94,0.1)" borderRadius="full" color="coral.400">
@@ -74,13 +80,13 @@ export function ErrorState({
       </Box>
       <VStack gap="6px" textAlign="center">
         <Text fontWeight="600" fontSize="16px" color="fg.default">
-          {title}
+          {displayTitle}
         </Text>
         <Text fontSize="14px" color="fg.muted" maxW="360px" lineHeight="1.6">
-          {message}
+          {displayMessage}
         </Text>
       </VStack>
-      {onRetry && (
+      {showRetry && (
         <Button
           size="sm"
           onClick={onRetry}
