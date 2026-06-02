@@ -7,8 +7,6 @@ This folder documents how Eagle Bank is built and the engineering decisions made
 | [`REQUIREMENTS.md`](./REQUIREMENTS.md) | **Full take-home traceability** — every objective, all 11 `/api` endpoints, why there are no Route Handlers |
 | [`ARCHITECTURE.md`](./ARCHITECTURE.md) | System overview, layers, data flow, and the rationale behind each major technical choice |
 | [`CHANGELOG.md`](./CHANGELOG.md) | A chronological log of the work done on this project — setup, the Next.js 16 / Chakra UI v3 migration, bug fixes, and the cleanup pass |
-| [`INTERVIEW.md`](./INTERVIEW.md) | Verbose interview prep + **take-home rubric scorecard** (~80/100) with real-world examples |
-
 Diagrams (Mermaid, render natively on GitHub) live in [`../diagrams`](../diagrams):
 
 - [`system-architecture.md`](../diagrams/system-architecture.md) — high-level component/layer map
