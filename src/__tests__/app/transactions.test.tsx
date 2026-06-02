@@ -30,6 +30,10 @@ describe("TransactionsPage", () => {
       },
       { timeout: 10000 }
     );
+
+    const detailLinks = screen.getAllByRole("link", { name: /view transaction/i });
+    expect(detailLinks.length).toBeGreaterThan(0);
+    expect(detailLinks[0]).toHaveAttribute("href", expect.stringMatching(/\/transactions\//));
   });
 });
 
