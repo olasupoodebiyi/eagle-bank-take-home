@@ -27,13 +27,12 @@ describe("TransactionsPage", () => {
         expect(screen.getByText("Transactions")).toBeInTheDocument();
         expect(screen.getByText("Filters")).toBeInTheDocument();
         expect(screen.getAllByText("Deposit").length).toBeGreaterThan(0);
+        const detailLinks = screen.getAllByRole("link", { name: /view transaction/i });
+        expect(detailLinks.length).toBeGreaterThan(0);
+        expect(detailLinks[0]).toHaveAttribute("href", expect.stringMatching(/\/transactions\//));
       },
       { timeout: 10000 }
     );
-
-    const detailLinks = screen.getAllByRole("link", { name: /view transaction/i });
-    expect(detailLinks.length).toBeGreaterThan(0);
-    expect(detailLinks[0]).toHaveAttribute("href", expect.stringMatching(/\/transactions\//));
   });
 });
 
