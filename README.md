@@ -26,9 +26,16 @@ pnpm exec msw init public/ --save
 
 # Start development server
 pnpm dev
+
+# Production preview (MSW runs automatically — there is no real /api backend)
+pnpm build && pnpm start
 ```
 
 Open [http://localhost:3000](http://localhost:3000). You'll be redirected to `/login`.
+
+**Note:** All `/api/*` traffic is mocked by MSW in the browser (dev and `pnpm start`). Set `NEXT_PUBLIC_API_URL` when you connect a real backend; set `NEXT_PUBLIC_ENABLE_MSW=false` to disable the worker explicitly.
+
+**Stuck on “Starting mock API…” or blank page?** In Chrome DevTools → Application → Service Workers → unregister `localhost`, then hard-refresh (Ctrl+Shift+R). Stale workers from an earlier build often block MSW from starting.
 
 **Demo credentials**
 - Email: `alex.morgan@example.com`
