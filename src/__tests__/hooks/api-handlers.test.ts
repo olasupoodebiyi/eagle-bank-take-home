@@ -17,6 +17,7 @@ describe("Auth API handler", () => {
     expect(body).toHaveProperty("token");
     expect(body).toHaveProperty("user");
     expect(body.user.email).toBe("alex.morgan@example.com");
+    expect(body.user).not.toHaveProperty("passwordHash");
   });
 
   it("rejects invalid credentials", async () => {
@@ -43,6 +44,15 @@ describe("Auth API handler", () => {
     const body = await res.json();
     expect(body).toHaveProperty("token");
     expect(body.user.fullName).toBe("Test User");
+    expect(body.user).not.toHaveProperty("passwordHash");
+  });
+
+  it("returns current user without password hash", async () => {
+    const res = await fetch("/api/auth/me", { headers: BASE_HEADERS });
+    expect(res.status).toBe(200);
+    const user = await res.json();
+    expect(user.id).toBe("usr_001");
+    expect(user).not.toHaveProperty("passwordHash");
   });
 
   it("rejects duplicate email registration", async () => {
