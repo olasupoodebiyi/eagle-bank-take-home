@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { useRouter } from "next/navigation";
 import {
   Box,
   Text,
@@ -19,6 +18,7 @@ import { useFetch } from "@/hooks/useFetch";
 import { TransactionTypeBadge, StatusBadge } from "@/components/ui/Badges";
 import { EmptyState, ErrorState } from "@/components/feedback/States";
 import { PageHeader } from "@/components/layout/PageHeader";
+import { NextLinkBox } from "@/components/ui/NextLink";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import type { PaginatedResponse, Transaction, TransactionType } from "@/types";
 
@@ -53,7 +53,6 @@ function buildUrl(filters: Filters): string {
 }
 
 export default function TransactionsPage() {
-  const router = useRouter();
   const [filters, setFilters] = useState<Filters>({
     startDate: "",
     endDate: "",
@@ -298,18 +297,16 @@ export default function TransactionsPage() {
                         _hover={{ bg: "surface.2" }}
                       >
                         <Table.Cell px="24px" py="16px">
-                          <Box
-                            as="button"
-                            type="button"
+                          <NextLinkBox
+                            href={`/transactions/${txn.id}`}
                             display="block"
-                            w="full"
-                            textAlign="left"
                             borderRadius="md"
-                            bg="transparent"
-                            border="none"
-                            cursor="pointer"
-                            p="0"
-                            onClick={() => router.push(`/transactions/${txn.id}`)}
+                            _focusVisible={{
+                              outline: "2px solid",
+                              outlineColor: "brand.400",
+                              outlineOffset: "2px",
+                            }}
+                            aria-label={`View transaction: ${txn.description}`}
                           >
                             <Text fontSize="14px" fontWeight="500" color="fg.default" lineClamp={1} maxW="240px">
                               {txn.description}
@@ -319,7 +316,7 @@ export default function TransactionsPage() {
                                 {txn.recipientName}
                               </Text>
                             )}
-                          </Box>
+                          </NextLinkBox>
                         </Table.Cell>
                         <Table.Cell px="16px">
                           <TransactionTypeBadge type={txn.type} />
