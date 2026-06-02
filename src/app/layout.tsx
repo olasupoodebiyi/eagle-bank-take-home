@@ -34,8 +34,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`dark ${dmSans.variable} ${jetbrainsMono.variable}`}
-      style={{ colorScheme: "dark" }}
+      className={`${dmSans.variable} ${jetbrainsMono.variable}`}
       suppressHydrationWarning
     >
       <body>
