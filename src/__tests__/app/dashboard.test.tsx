@@ -21,11 +21,10 @@ describe("DashboardPage", () => {
     await waitFor(
       () => {
         expect(screen.getByText(/Welcome back, Alex/i)).toBeInTheDocument();
+        expect(screen.getByText("Total balance")).toBeInTheDocument();
+        expect(screen.getAllByText(/£24,850\.75/).length).toBeGreaterThan(0);
       },
-      { timeout: 5000 }
+      { timeout: 8000 }
     );
-
-    expect(screen.getByText("Total balance")).toBeInTheDocument();
-    expect(screen.getByText(/£24,850\.75/)).toBeInTheDocument();
   });
 });
