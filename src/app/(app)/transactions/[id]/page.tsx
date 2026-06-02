@@ -3,7 +3,7 @@
 import { Box, Text, HStack } from "@chakra-ui/react";
 import { ArrowLeft, ArrowLeftRight } from "lucide-react";
 import { NextLinkBox } from "@/components/ui/NextLink";
-import { use } from "react";
+import { Suspense, use } from "react";
 import { useFetch } from "@/hooks/useFetch";
 import { TransactionTypeBadge, StatusBadge } from "@/components/ui/Badges";
 import { ErrorState } from "@/components/feedback/States";
@@ -12,6 +12,18 @@ import { formatCurrency, formatDate } from "@/lib/utils";
 import type { Transaction } from "@/types";
 
 export default function TransactionDetailPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  return (
+    <Suspense fallback={null}>
+      <TransactionDetailContent params={params} />
+    </Suspense>
+  );
+}
+
+function TransactionDetailContent({
   params,
 }: {
   params: Promise<{ id: string }>;

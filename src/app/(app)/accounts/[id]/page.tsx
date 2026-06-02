@@ -3,7 +3,7 @@
 import { Box, Text, HStack } from "@chakra-ui/react";
 import { ArrowLeft, CreditCard } from "lucide-react";
 import { NextLinkBox } from "@/components/ui/NextLink";
-import { use } from "react";
+import { Suspense, use } from "react";
 import { useFetch } from "@/hooks/useFetch";
 import { StatusBadge } from "@/components/ui/Badges";
 import { ErrorState } from "@/components/feedback/States";
@@ -16,6 +16,18 @@ import {
 import type { Account } from "@/types";
 
 export default function AccountDetailPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  return (
+    <Suspense fallback={null}>
+      <AccountDetailContent params={params} />
+    </Suspense>
+  );
+}
+
+function AccountDetailContent({
   params,
 }: {
   params: Promise<{ id: string }>;
