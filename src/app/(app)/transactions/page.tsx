@@ -104,8 +104,8 @@ export default function TransactionsPage() {
         p="16px 20px"
         mb="20px"
       >
-        <HStack gap="12px" flexWrap="wrap">
-          <HStack gap="6px" color="fg.subtle">
+        <HStack gap="12px" flexWrap="wrap" align={{ base: "stretch", sm: "center" }}>
+          <HStack gap="6px" color="fg.subtle" w={{ base: "full", sm: "auto" }}>
             <Filter size={14} />
             <Text fontSize="12px" fontWeight="500">Filters</Text>
           </HStack>
@@ -116,7 +116,8 @@ export default function TransactionsPage() {
             onChange={(e) => updateFilter("startDate", e.target.value)}
             placeholder="From date"
             size="sm"
-            w="160px"
+            w={{ base: "full", sm: "160px" }}
+            flex={{ base: "1 1 100%", sm: "0 0 auto" }}
             bg="surface.2"
             border="1px solid"
             borderColor="surface.border"
@@ -132,7 +133,8 @@ export default function TransactionsPage() {
             onChange={(e) => updateFilter("endDate", e.target.value)}
             placeholder="To date"
             size="sm"
-            w="160px"
+            w={{ base: "full", sm: "160px" }}
+            flex={{ base: "1 1 100%", sm: "0 0 auto" }}
             bg="surface.2"
             border="1px solid"
             borderColor="surface.border"
@@ -148,7 +150,8 @@ export default function TransactionsPage() {
             value={[filters.type]}
             onValueChange={({ value }) => updateFilter("type", value[0] as TransactionType | "all")}
             size="sm"
-            w="160px"
+            w={{ base: "full", sm: "160px" }}
+            flex={{ base: "1 1 100%", sm: "0 0 auto" }}
           >
             <Select.HiddenSelect />
             <Select.Control>
@@ -159,6 +162,7 @@ export default function TransactionsPage() {
                 borderRadius="lg"
                 color="fg.default"
                 fontSize="13px"
+                w="full"
                 aria-label="Filter by transaction type"
               >
                 <Select.ValueText placeholder="All types" />
@@ -207,8 +211,8 @@ export default function TransactionsPage() {
         borderRadius="xl"
         overflow="hidden"
       >
-        <Box overflowX="auto">
-          <Table.Root>
+        <Box overflowX="auto" mx={{ base: "-16px", sm: 0 }} px={{ base: "16px", sm: 0 }}>
+          <Table.Root minW="640px">
             <Table.Header>
               <Table.Row bg="surface.2">
                 <Table.ColumnHeader px="24px" py="14px" fontSize="12px" color="fg.subtle" fontWeight="600" letterSpacing="0.5px" textTransform="uppercase">

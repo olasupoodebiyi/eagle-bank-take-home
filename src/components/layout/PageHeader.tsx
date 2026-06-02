@@ -10,14 +10,15 @@ export function PageHeader({ title, subtitle, actions }: PageHeaderProps) {
   return (
     <HStack
       justify="space-between"
-      align="flex-end"
-      mb="32px"
+      align={{ base: "flex-start", sm: "flex-end" }}
+      mb={{ base: "20px", lg: "32px" }}
       flexWrap="wrap"
-      gap="16px"
+      gap="12px"
+      flexDirection={{ base: "column", sm: "row" }}
     >
-      <Box>
+      <Box minW={0} flex={1}>
         <Text
-          fontSize="24px"
+          fontSize={{ base: "20px", sm: "24px" }}
           fontWeight="700"
           color="fg.default"
           letterSpacing="-0.5px"
