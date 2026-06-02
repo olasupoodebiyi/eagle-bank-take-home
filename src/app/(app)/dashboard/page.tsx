@@ -16,7 +16,10 @@ import {
   ArrowRight,
   CreditCard,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { NextLinkBox } from "@/components/ui/NextLink";
+import { useAuth } from "@/context/AuthContext";
 import { useFetch } from "@/hooks/useFetch";
 import { StatCard } from "@/components/ui/StatCard";
 import { StatusBadge } from "@/components/ui/Badges";
@@ -31,8 +34,19 @@ import {
 import type { DashboardData } from "@/types";
 
 export default function DashboardPage() {
-  const { data, isLoading, error, refetch } =
-    useFetch<DashboardData>("/api/dashboard");
+  const router = useRouter();
+  const { isAuthenticated, isLoading: authLoading } = useAuth();
+  const { data, isLoading, error, refetch } = useFetch<DashboardData>(
+    !authLoading && isAuthenticated ? "/api/dashboard" : null
+  );
+
+  useEffect(() => {
+    if (!authLoading && !isAuthenticated) {
+      router.replace("/login?redirect=/dashboard");
+    }
+  }, [authLoading, isAuthenticated, router]);
+
+  const pageLoading = authLoading || isLoading;
 
   if (error) {
     return <ErrorState message={error} onRetry={refetch} />;
@@ -45,7 +59,7 @@ export default function DashboardPage() {
     <Box>
       <PageHeader
         title={
-          isLoading
+          pageLoading
             ? "Welcome back"
             : `Welcome back, ${user?.fullName?.split(" ")[0]} 👋`
         }
@@ -68,7 +82,7 @@ export default function DashboardPage() {
             stats ? formatCurrency(stats.totalBalance, stats.currency) : "—"
           }
           icon={Wallet}
-          isLoading={isLoading}
+          isLoading={pageLoading}
           accentColor="brand.400"
         />
         <StatCard
@@ -77,7 +91,7 @@ export default function DashboardPage() {
             stats ? formatCurrency(stats.currentBalance, stats.currency) : "—"
           }
           icon={CreditCard}
-          isLoading={isLoading}
+          isLoading={pageLoading}
           accentColor="brand.300"
         />
         <StatCard
@@ -88,7 +102,7 @@ export default function DashboardPage() {
           subValue="This month"
           icon={TrendingUp}
           trend="up"
-          isLoading={isLoading}
+          isLoading={pageLoading}
           accentColor="emerald.400"
         />
         <StatCard
@@ -101,7 +115,7 @@ export default function DashboardPage() {
           subValue="This month"
           icon={TrendingDown}
           trend="down"
-          isLoading={isLoading}
+          isLoading={pageLoading}
           accentColor="coral.400"
         />
       </Grid>
@@ -144,7 +158,7 @@ export default function DashboardPage() {
             divideY="1px"
             divideColor="surface.border"
           >
-            {isLoading ? (
+            {pageLoading ? (
               Array.from({ length: 5 }).map((_, i) => (
                 <HStack key={i} p="16px 24px" justify="space-between">
                   <HStack gap="12px">
@@ -321,7 +335,7 @@ export default function DashboardPage() {
             </HStack>
 
             <VStack gap={0} align="stretch">
-              {isLoading
+              {pageLoading
                 ? Array.from({ length: 2 }).map((_, i) => (
                     <HStack key={i} p="14px 24px" justify="space-between">
                       <VStack gap="4px" align="flex-start">

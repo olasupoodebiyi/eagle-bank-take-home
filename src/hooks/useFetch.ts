@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import Cookies from "js-cookie";
+import { getAuthorizationHeader } from "@/lib/auth-token";
 
 interface UseFetchState<T> {
   data: T | null;
@@ -21,11 +21,10 @@ export function useFetch<T>(url: string | null) {
 
     setState((prev) => ({ ...prev, isLoading: true, error: null }));
     try {
-      const token = Cookies.get("eagle_bank_token");
       const res = await fetch(url, {
         headers: {
           "Content-Type": "application/json",
-          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          ...getAuthorizationHeader(),
         },
       });
 
@@ -57,11 +56,10 @@ export function useFetch<T>(url: string | null) {
 
     void (async () => {
       try {
-        const token = Cookies.get("eagle_bank_token");
         const res = await fetch(url, {
           headers: {
             "Content-Type": "application/json",
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+            ...getAuthorizationHeader(),
           },
         });
 
@@ -100,12 +98,11 @@ export async function authFetch<T>(
   url: string,
   options: RequestInit = {}
 ): Promise<T> {
-  const token = Cookies.get("eagle_bank_token");
   const res = await fetch(url, {
     ...options,
     headers: {
       "Content-Type": "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...getAuthorizationHeader(),
       ...options.headers,
     },
   });
