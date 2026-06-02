@@ -228,9 +228,9 @@ No changes needed to page components — they consume `useFetch` and `authFetch`
 
 ## Deployment
 
-Production build verified with `pnpm build` (Next.js 16, Turbopack, Cache Components). Deploy the output of `next build` to any Node-compatible host; set `NEXT_PUBLIC_*` only when swapping MSW for a real API.
+Production build verified with `pnpm build` and `pnpm test:run` (Next.js 16, Turbopack, Cache Components). Deploy the output of `next build` to any Node-compatible host; set `NEXT_PUBLIC_*` only when swapping MSW for a real API.
 
-<!-- Add live URL when deployed, e.g. https://eagle-bank.vercel.app -->
+**Live demo:** _Add URL after deploy (e.g. Vercel preview)._
 
 ---
 
