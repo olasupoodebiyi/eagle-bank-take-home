@@ -9,6 +9,7 @@ import {
   type ReactNode,
 } from "react";
 import Cookies from "js-cookie";
+import { getAuthorizationHeader } from "@/lib/auth-token";
 import type { AuthState, User, LoginPayload, RegisterPayload } from "@/types";
 
 // ─── State ─────────────────────────────────────────────────────────────────────
@@ -74,7 +75,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     fetch("/api/auth/me", {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {
+        "Content-Type": "application/json",
+        ...getAuthorizationHeader(),
+      },
     })
       .then((res) => {
         if (!res.ok) throw new Error("Session expired");
