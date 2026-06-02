@@ -35,5 +35,5 @@ Thumbs.db
 # Turbopack
 .turbo/
 
-# Local-only (not published)
-docs/INTERVIEW.md
+# Local-only planning / interview notes (not published)
+temp/
